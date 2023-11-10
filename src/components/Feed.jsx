@@ -1,8 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Stack, Typography } from "@mui/material";
-import SideBar from './SideBar';
+import { SideBar, Videos } from './';
+
+import { fetchFromAPI } from './utils/fetchFromAPI';
 
 const Feed = () => {
+
+  const [selectedCategory, setSelectedCategory] = useState('New')
+  const [videos, setVideos] = useState([]);
+
+  // Fetch videos based on category selection
+
+  useEffect(() => {
+    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
+     .then((data) => setVideos(data.items))
+  }, [selectedCategory]);
+
   return (
     <Stack
       sx={{
@@ -17,7 +30,10 @@ const Feed = () => {
         }}
       >
         {/* Sidebar content */}
-        <SideBar/>
+        <SideBar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
         <Typography
           className='Copyght'
           variant='body2'
@@ -25,6 +41,14 @@ const Feed = () => {
         >
           Copyright 2023 | Gideon Buba
         </Typography>
+      </Box>
+
+      <Box p={2} sx={{ overflowY: 'auto', height: '90vh', flex: 2 }}>
+        <Typography variant='h4' fontWeight="bold" mb={2} sx={{ color: 'white' }}>
+          {selectedCategory} <span style={{ color: "#F31503" }}> Videos </span>
+        </Typography>
+
+        <Videos videos={videos} />
       </Box>
     </Stack>
   );

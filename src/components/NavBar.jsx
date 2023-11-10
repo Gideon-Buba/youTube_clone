@@ -2,7 +2,7 @@ import { Stack } from "@mui/material"
 import  { Link } from 'react-router-dom'
 import SearchBar from "./SearchBar"
 
-import { logo } from "../components/utils/constatnts"
+import { logo } from "./utils/constatnts"
  const NavBar = () =>  (
      <Stack 
      direction="row" 
